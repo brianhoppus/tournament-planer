@@ -26,6 +26,7 @@ def deleteMatches():
 
 def deletePlayers():
     """Remove all the player records from the database."""
+    commitQuery("DELETE FROM Players;")
 
 
 def countPlayers():
