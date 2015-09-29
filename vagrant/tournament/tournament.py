@@ -11,6 +11,14 @@ def connect():
     return psycopg2.connect("dbname=tournament")
 
 
+def commitQuery(query):
+    """Commits a sql command against the tournament database"""
+    conn = connect()
+    cursor = conn.cursor()
+    cursor.execute(query)
+    conn.commit()
+    conn.close()
+
 def deleteMatches():
     """Remove all the match records from the database."""
 
