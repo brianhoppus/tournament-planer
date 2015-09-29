@@ -21,6 +21,7 @@ def commitQuery(query):
 
 def deleteMatches():
     """Remove all the match records from the database."""
+    commitQuery("DELETE FROM Matches;")
 
 
 def deletePlayers():
