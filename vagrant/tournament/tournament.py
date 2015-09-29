@@ -50,6 +50,8 @@ def registerPlayer(name):
     Args:
       name: the player's full name (need not be unique).
     """
+    query = "INSERT INTO players (name) VALUES('{0}')".format(name)
+    commitQuery(query)
 
 
 def playerStandings():
