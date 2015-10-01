@@ -11,10 +11,11 @@ CREATE DATABASE tournament;
 \c tournament;
 
 CREATE TABLE Players (
-    player_id serial primary key,
+    id serial primary key,
     name text
 );
 CREATE TABLE Matches (
-    winner_id serial references Players,
-    loser_id serial references Players
+    id serial primary key,
+    winner_id serial references Players(id),
+    loser_id serial references Players(id)
 );
