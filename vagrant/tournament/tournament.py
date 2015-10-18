@@ -103,10 +103,10 @@ def swissPairings():
         name2: the second player's name
     """
     standings = playerStandings()
-    num_players = len(standings)
+    player_count = len(standings)
     pairings = []
 
-    for player in range(0, num_players, 2):
+    for player in range(0, player_count, 2):
         pair = ((standings[player][0], standings[player][1],
             standings[player + 1][0], standings[player + 1][1]))
         pairings.append(pair)
