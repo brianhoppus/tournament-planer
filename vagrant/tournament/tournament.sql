@@ -16,6 +16,14 @@ CREATE TABLE Players (
 );
 CREATE TABLE Matches (
     id serial primary key,
-    winner_id serial references Players(id),
-    loser_id serial references Players(id)
+    winner INT,
+    loser INT,
+    foreign key (winner) references Players(id),
+    foreign key (loser) references Players(id)
 );
+CREATE VIEW Standings AS
+SELECT id, name,
+(SELECT count(*) FROM Matches WHERE id = winner) AS wins,
+(SELECT count(*) FROM Matches WHERE id IN (winner, loser)) AS matches
+FROM Players
+GROUP BY id;
