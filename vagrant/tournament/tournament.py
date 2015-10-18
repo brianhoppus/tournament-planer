@@ -11,11 +11,11 @@ def connect():
     return psycopg2.connect("dbname=tournament")
 
 
-def commitQuery(query):
+def commitQuery(query, params=False):
     """Commits a sql command against the tournament database"""
     conn = connect()
     cursor = conn.cursor()
-    cursor.execute(query)
+    cursor.execute(query, params)
     conn.commit()
     conn.close()
 
@@ -50,9 +50,8 @@ def registerPlayer(name):
     Args:
       name: the player's full name (need not be unique).
     """
-    query = "INSERT INTO players (name) VALUES('{0}')".format(name)
-    commitQuery(query)
-
+    commitQuery("INSERT INTO Players (name) VALUES(%s);", (name,))
+    
 
 def playerStandings():
     """Returns a list of the players and their win records, sorted by wins.
@@ -67,6 +66,14 @@ def playerStandings():
         wins: the number of matches the player has won
         matches: the number of matches the player has played
     """
+    conn = connect()
+    cursor = conn.cursor()
+    query = "SELECT * FROM standings ORDER BY wins DESC, matches ASC;"
+    cursor.execute(query)
+    results = cursor.fetchall()
+    conn.close()
+    
+    return results;
 
 
 def reportMatch(winner, loser):
@@ -76,9 +83,9 @@ def reportMatch(winner, loser):
       winner:  the id number of the player who won
       loser:  the id number of the player who lost
     """
-    commitQuery("INSERT INTO Matches (winner, loser) VALUES (%s, %s)",
+    commitQuery("INSERT INTO matches (winner, loser) VALUES (%s, %s)",
             (winner, loser))
- 
+
  
 def swissPairings():
     """Returns a list of pairs of players for the next round of a match.
@@ -95,5 +102,14 @@ def swissPairings():
         id2: the second player's unique id
         name2: the second player's name
     """
+    standings = playerStandings()
+    num_players = len(standings)
+    pairings = []
 
+    for player in range(0, num_players, 2):
+        pair = ((standings[player][0], standings[player][1],
+            standings[player + 1][0], standings[player + 1][1]))
+        pairings.append(pair)
+
+    return pairings
 
