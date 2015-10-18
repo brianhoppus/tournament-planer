@@ -76,6 +76,8 @@ def reportMatch(winner, loser):
       winner:  the id number of the player who won
       loser:  the id number of the player who lost
     """
+    commitQuery("INSERT INTO Matches (winner, loser) VALUES (%s, %s)",
+            (winner, loser))
  
  
 def swissPairings():
