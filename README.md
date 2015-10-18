@@ -9,7 +9,7 @@ Common code for the Relational Databases and Full Stack Fundamentals courses
 * terminal
 
 ## How to Download
-    git clone https://github.com/brianhoppus/tournament-planer
+    git clone https://github.com/brianhoppus/tournament-planner
 
 
 ## How to Run
