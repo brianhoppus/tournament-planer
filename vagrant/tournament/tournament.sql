@@ -22,8 +22,8 @@ CREATE TABLE Matches (
     foreign key (loser) references Players(id)
 );
 CREATE VIEW Standings AS
-SELECT id, name,
-(SELECT count(*) FROM Matches WHERE id = winner) AS wins,
-(SELECT count(*) FROM Matches WHERE id IN (winner, loser)) AS matches
+SELECT players.id, players.name,
+(SELECT count(*) FROM Matches WHERE players.id = winner) AS wins,
+(SELECT count(*) FROM Matches WHERE players.id IN (winner, loser)) AS matches
 FROM Players
 GROUP BY id;
